@@ -11,6 +11,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceRepository")
  * @ApiResource(
+ *     subresourceOperations={
+ *          "api_customers_invoices_get_subresource"={
+ *              "normalization_context"={
+ *                  "groups"={"invoices_subresource"}
+ *              }
+ *          }
+ *     },
+ *    itemOperations={"GET", "PUT", "DELETE", "PATCH", "increment"={
+ *              "method"="post",
+ *              "path"="/invoice/{id}/increment",
+ *              "controller"="App\Controller\InvoiceIncrementationController",
+ *              "swagger_context"={
+ *                  "summary"="Incrémente une facture",
+ *                  "description"="Incrémente le chrono d'une facture donnée"
+ *              }
+ *          }
+ *     },
  *     attributes={
  *          "pagination_enabled"=true,
  *          "pagination_items_per_page"=20,
@@ -28,25 +45,25 @@ class Invoice
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_read", "customers_read"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"invoices_read", "customers_read"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      */
     private $amount;
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"invoices_read", "customers_read"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      */
     private $sentAt;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"invoices_read", "customers_read"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      */
     private $status;
 
@@ -59,14 +76,14 @@ class Invoice
 
     /**
      * @ORM\Column(type="integer")
-     * @Groups({"invoices_read", "customers_read"})
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      */
     private $chrono;
 
     /**
      * Permet de récupérer le User à qui appartient la facture
      *
-     * @Groups({"invoices_read"})
+     * @Groups({"invoices_read", "invoices_subresource"})
      * @return User
      */
     public function getUser(): User
