@@ -28,3 +28,8 @@ services:
 
     App\Serializer\PatchedDateTimeNormalizer:
         tags: [serializer.normalizer]
+
+    # Permet de rajouter des informations dans notre token
+    App\Event\JwtCreatedSubscriber:
+        tags:
+            - {name: kernel.event_listener, event: lexik_jwt_authentication.on_jwt_created, method: updateJwtData}

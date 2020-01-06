@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Invoice;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,32 +20,22 @@ class InvoiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Invoice::class);
     }
 
-    // /**
-    //  * @return Invoice[] Returns an array of Invoice objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getLastChronoByUser(User $user)
     {
         return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('i.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+                    ->select('i.chrono')
+                    ->join('i.customer', 'c')
+                    ->where('c.user = :user')
+                    ->setParameter('user', $user)
+                    ->orderBy('i.chrono', 'desc')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getSingleScalarResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Invoice
+    public function getNextChronoByUser(User $user)
     {
-        return $this->createQueryBuilder('i')
-            ->andWhere('i.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->getLastChronoByUser($user) + 1;
     }
-    */
 }
