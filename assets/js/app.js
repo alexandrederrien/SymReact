@@ -1,13 +1,23 @@
 //Les imports importants
 import React from "react";
 import ReactDOM from "react-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
 
 require('../css/app.css');
+require('../css/bootstrap.min.css');
 
 console.log('Hello Webpack Encore!!! Edit me in assets/js/app.js');
 
 const App = () => {
-    return <h1>Bonjour à tous</h1>;
+    return(
+        <>
+            <Navbar/>;
+            <div className="container pt-5">
+                <HomePage/>
+            </div>
+        </>
+    );
 };
 
 const rootElement = document.querySelector('#app');
