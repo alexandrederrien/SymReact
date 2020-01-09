@@ -63,7 +63,7 @@ class Invoice
      * @ORM\Column(type="float")
      * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      * @Assert\NotBlank(message="Le montant de la facture est obligatoire")
-     * @Assert\Type(type="numeric", message="Le montant de la facture doit être un numérique")
+     * @Assert\Type(type="int", message="Le montant de la facture doit être un numérique")
      */
     private $amount;
 
@@ -95,7 +95,7 @@ class Invoice
      * @ORM\Column(type="integer")
      * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
      * @Assert\NotBlank(message="Le chrono est obligatoire")
-     * @Assert\Type(type="integer", message="Le chrono de la facture doit être un numérique")
+     * @Assert\Type(type="int", message="Le chrono de la facture doit être un numérique")
      */
     private $chrono;
 
